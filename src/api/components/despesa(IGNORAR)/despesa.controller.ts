@@ -3,6 +3,7 @@ import { AppDataSource } from '../../../config/database/mysql-datasource.config'
 import { Despesa } from './despesa.entity';
 
 export class DespesaController {
+  //Função para listar todos os registro do banco de ados
   public async list(req: Request, res: Response) {
 
     const despesas = await AppDataSource.manager.find(Despesa)
@@ -70,6 +71,15 @@ export class DespesaController {
     await AppDataSource.manager.delete(Despesa, despesa);
 
     return res.status(204).json();
+  }
+  public async show(req: Request, res: Response) {
+    const { cod } = req.params;
+
+    const despesa = await AppDataSource.manager.findOneBy(Despesa, { id: cod });
+
+    if (despesa == null) {
+      return res.status(404).json({ erro: 'Despesa não encontrada!' });
+    }
   }
 
   
