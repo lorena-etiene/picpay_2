@@ -1,13 +1,13 @@
 import { Router } from 'express';
-import { DespesaController } from './despesa.controller';
+import { SaqueController } from './saque.controller';
 
-export class DespesaRoutes {
+export class SaqueRoutes {
   private router: Router = Router();
 
-  private controller: DespesaController;
+  private controller: SaqueController;
 
   constructor() {
-    this.controller = new DespesaController();
+    this.controller = new SaqueController();
     this.init();
   }
 
