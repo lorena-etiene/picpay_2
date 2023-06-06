@@ -8,7 +8,7 @@ import { registerRoutes } from './components';
  * @returns {void}
  */
 export function initRoutes(router: Router): void {
-  const prefix: string = '/api/v1';
+  const prefix: string = '/picpay_2/v1';
 
   registerRoutes(router, prefix);
 }
