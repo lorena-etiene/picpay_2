@@ -1,13 +1,13 @@
 import { Request, Response } from 'express';
 import { AppDataSource } from '../../../config/database/mysql-datasource.config';
-import { Despesa } from './despesa.entity';
+import { Saque } from './saque.entity';
 
-export class DespesaController {
+export class SaqueController {
   public async list(req: Request, res: Response) {
 
-    const despesas = await AppDataSource.manager.find(Despesa)
+    const saques = await AppDataSource.manager.find(Saque)
 
-    res.status(200).json({ dados: despesas });
+    res.status(200).json({ dados: saques });
   }
 
   public async create(req: Request, res: Response) {
@@ -18,14 +18,15 @@ export class DespesaController {
     // let valor = req.body.valor;
     // let data = req.body.data;
 
-    let { descricao, valor, data } = req.body;
+    let { valor, data, conta_id } = req.body;
 
-    let desp = new Despesa();
-    desp.descricao = descricao;
-    desp.data = data;
-    desp.valor = valor;
+    let saque = new Saque();
+    saque.valor = valor;
+    saque.data_hora = data;
+    saque.conta_id = conta_id;
+    
 
-    const _despesa = await AppDataSource.manager.save(desp);
+    const _despesa = await AppDataSource.manager.save(saque);
 
     res.status(201).json(_despesa);
   }
