@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { AppDataSource } from '../../../config/database/mysql-datasource.config';
 import { Agencia } from './agencia.entity';
-import { Banco } from "c:/Users/2022102060029/Documents/picpay_2/src/api/components/banco/banco.entity";
+import { Banco } from '../banco/banco.entity';
 
 export class AgenciaController {
   public async list(req: Request, res: Response) {
@@ -38,5 +38,16 @@ export class AgenciaController {
     const _agencia = await AppDataSource.manager.save(agc);
 
     res.status(201).json(_agencia);
+  }
+  public async update(){
+
+  }
+
+  public async show(){
+
+  }
+
+  public async destroy(){
+    
   }
 }
