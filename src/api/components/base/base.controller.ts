@@ -10,7 +10,7 @@ export class BaseController {
     res.status(200).json({
       name: 'API REST - Picpay 2 - A melhor solução financeira',
       mode: 'development',
-      version: '1.0.0',
+      version: '1.0.1',
     });
   }
 }

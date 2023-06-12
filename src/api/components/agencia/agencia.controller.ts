@@ -6,9 +6,9 @@ import { Banco } from '../banco/banco.entity';
 export class AgenciaController {
   public async list(req: Request, res: Response) {
 
-    const despesas = await AppDataSource.manager.find(Agencia)
+    const agencias = await AppDataSource.manager.find(Agencia)
 
-    res.status(200).json({ dados: despesas });
+    res.status(200).json({ dados: agencias });
   }
    //Verifica se existe um banco e cria uma agencia
   public async create(req: Request, res: Response) {
