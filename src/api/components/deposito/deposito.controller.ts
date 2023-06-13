@@ -29,8 +29,8 @@ export class DepositoController {
 
   //Função que exibe o registro do ID que passado no body
   public async show(req: Request, res: Response){
-    let id = req.params
-    const showdeposito = await AppDataSource.manager.findOneBy(Deposito, id)
+    let {id} = req.params
+    const showdeposito = await AppDataSource.manager.findOneBy(Deposito, {id:parseInt(id)})
     return res.status(201).json(showdeposito);
   }
   //Função que exclui um registro
