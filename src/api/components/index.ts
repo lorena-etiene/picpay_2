@@ -6,6 +6,8 @@ import { AgenciaRoutes } from './agencia/agencia.routes';
 import { SaqueRoutes } from './saque/saque.routes';
 import { TransferenciaRoutes } from './transferencia/transferencia.routes';
 import { DepositoRoutes } from './deposito/deposito.routes';
+import { ClienteRoutes } from './cliente/cliente.routes';
+import { ContaRoutes } from './conta/conta.routes';
 /**
  * Init component routes
  *
@@ -21,4 +23,6 @@ export function registerRoutes(router: Router, prefix: string = ''): void {
   router.use(`${prefix}/deposito`, new DepositoRoutes().routes())
   router.use(`${prefix}/saque`, new AgenciaRoutes().routes())
   router.use(`${prefix}/transferencia`, new AgenciaRoutes().routes())
+  router.use(`${prefix}/cliente`, new ClienteRoutes().routes())
+  router.use(`${prefix}/conta`, new ContaRoutes().routes())
 }

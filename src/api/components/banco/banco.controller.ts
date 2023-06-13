@@ -30,15 +30,15 @@ export class BancoController {
 
     res.status(201).json(_banco);
   }
-  public async update(){
+  public async update (res: Response, req:Request){
 
   }
 
-  public async show(){
+  public async show (res: Response, req:Request){
 
   }
 
-  public async destroy(){
-    
+  public async destroy (res: Response, req:Request){
+
   }
 }

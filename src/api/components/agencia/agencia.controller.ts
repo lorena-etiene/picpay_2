@@ -39,15 +39,16 @@ export class AgenciaController {
 
     res.status(201).json(_agencia);
   }
-  public async update(){
+  
+  public async update (res: Response, req:Request){
 
   }
 
-  public async show(){
+  public async show (res: Response, req:Request){
 
   }
 
-  public async destroy(){
-    
+  public async destroy (res: Response, req:Request){
+
   }
 }

@@ -50,4 +50,16 @@ export class ContaController {
 
     res.status(201).json(_conta);
   }
+
+  public async update (res: Response, req:Request){
+
+  }
+
+  public async show (res: Response, req:Request){
+
+  }
+
+  public async destroy (res: Response, req:Request){
+
+  }
 }
