@@ -51,15 +51,15 @@ export class ContaController {
     res.status(201).json(_conta);
   }
 
-  public async update (res: Response, req:Request){
+  public async update (req: Request, res:Response){
 
   }
 
-  public async show (res: Response, req:Request){
+  public async show (req: Request, res:Response){
 
   }
 
-  public async destroy (res: Response, req:Request){
+  public async destroy (req: Request, res:Response){
 
   }
 }

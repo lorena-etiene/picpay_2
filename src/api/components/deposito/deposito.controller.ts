@@ -34,7 +34,7 @@ export class DepositoController {
     return res.status(201).json(showdeposito);
   }
   //Função que exclui um registro
-  public async destroy(){
+  public async destroy(req: Request, res:Response){
     
   }
 }

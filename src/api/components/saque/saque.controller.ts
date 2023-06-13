@@ -26,11 +26,11 @@ export class SaqueController {
     res.status(201).json(_saque);
   }
 
-  public async show(){
+  public async show(req: Request, res:Response){
 
   }
 
-  public async destroy(){
+  public async destroy(req: Request, res:Response){
     
   }
 }

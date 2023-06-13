@@ -36,7 +36,7 @@ export class ClienteController {
     res.status(201).json(_cliente);
   }
 
-  public async update (res: Response, req:Request){
+  public async update (req: Request, res:Response){
     const { cod } = req.params;
 
     const cli = await AppDataSource.manager.findOneBy(Cliente, { id: parseInt(cod) });
@@ -64,7 +64,7 @@ export class ClienteController {
 
   }
 
-  public async show (res: Response, req:Request){
+  public async show (req: Request, res:Response){
     const { cod } = req.params;
 
     const cli = await AppDataSource.manager.findOneBy(Cliente, { id: parseInt(cod) });
@@ -79,7 +79,7 @@ export class ClienteController {
 
   }
 
-  public async destroy (res: Response, req:Request){
+  public async destroy (req: Request, res:Response){
     const { cod } = req.params;
 
     const cli = await AppDataSource.manager.findOneBy(Cliente, { id: parseInt(cod) });

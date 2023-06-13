@@ -11,12 +11,6 @@ export class BancoController {
   }
 
   public async create(req: Request, res: Response) {
-    
-    //aqui que pegamos o dados para cadastrar uma nova despesa
-    
-    // let descricao = req.body.descricao;
-    // let valor = req.body.valor;
-    // let data = req.body.data;
 
     let { numero, nome_fantasia,razao_social,cnpj } = req.body;
 
@@ -30,15 +24,33 @@ export class BancoController {
 
     res.status(201).json(_banco);
   }
-  public async update (res: Response, req:Request){
+  public async update (req: Request, res:Response){
+    
+    const {cod}  = req.params;
+
+    const bancoNovo = await AppDataSource.manager.findOneBy(Banco, { id: parseInt(cod) });
+    res.json(bancoNovo);
+    /*if(bancoNovo == null){
+      return res.status(400).json({erro:"Banco não encontrado"});
+    }
+    const bancoAntigo = bancoNovo;
+    let { numero, nome_fantasia,razao_social,cnpj } = req.body;
+    bancoNovo.numero = numero;
+    bancoNovo.nome_fantasia = nome_fantasia;
+    bancoNovo.razao_social = razao_social;
+    bancoNovo.cnpj = cnpj;
+
+    await AppDataSource.manager.save(bancoNovo);
+
+    res.status(201).json({Registroantigo:bancoAntigo, RegistroNovo: bancoNovo});
+    */
+  }
+
+  public async show (req: Request, res:Response){
 
   }
 
-  public async show (res: Response, req:Request){
-
-  }
-
-  public async destroy (res: Response, req:Request){
+  public async destroy (req: Request, res:Response){
 
   }
 }
