@@ -27,14 +27,11 @@ export class DepositoController {
     res.status(201).json(_deposito);
   }
 
-  //Função que altera um registro no banco de dados com o que foi passado no body
-  public async update(){
-
-  }
-
   //Função que exibe o registro do ID que passado no body
-  public async show(){
-
+  public async show(req: Request, res: Response){
+    let id = req.params
+    const showdeposito = await AppDataSource.manager.findOneBy(Deposito, id)
+    return res.status(201).json(showdeposito);
   }
   //Função que exclui um registro
   public async destroy(){

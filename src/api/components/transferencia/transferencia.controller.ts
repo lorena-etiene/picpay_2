@@ -30,10 +30,6 @@ export class TransferenciaController {
     res.status(201).json(_transferencia);
   }
 
-  public async update(){
-
-  }
-
   public async show(){
 
   }

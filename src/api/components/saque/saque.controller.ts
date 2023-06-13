@@ -25,9 +25,6 @@ export class SaqueController {
 
     res.status(201).json(_saque);
   }
-  public async update(){
-
-  }
 
   public async show(){
 
