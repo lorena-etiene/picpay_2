@@ -21,7 +21,11 @@ export function registerRoutes(router: Router, prefix: string = ''): void {
   router.use(`${prefix}/deposito`, new DepositoRoutes().routes())
   router.use(`${prefix}/saque`, new AgenciaRoutes().routes())
   router.use(`${prefix}/transferencia`, new AgenciaRoutes().routes())
+
   router.use(`${prefix}/despesas`, new DespesaRoutes().routes())
+
+  router.use(`${prefix}/clientes`, new AgenciaRoutes().routes())
+
 
 
 
