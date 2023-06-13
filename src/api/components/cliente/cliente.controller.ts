@@ -35,4 +35,58 @@ export class ClienteController {
 
     res.status(201).json(_cliente);
   }
+
+  public async update (res: Response, req:Request){
+    const  id  = req.params;
+
+    const cli = await AppDataSource.manager.findOneBy(Cliente, id);
+
+    if (cli == null) {
+      return res.status(404).json({ erro: 'Cliente não encontrado!' });
+    }
+
+    let { nome, cpf_cnpj, rg, sexo, data_nascimento, renda, endereço, email, telefone } = req.body;
+
+    let cliente = new Cliente();
+    cliente.nome = nome;
+    cliente.cpf_cnpj = cpf_cnpj;
+    cliente.rg = rg;
+    cliente.sexo = sexo;
+    cliente.data_nascimento = data_nascimento;
+    cliente.renda = renda;
+    cliente. endereço = endereço;
+    cliente.email = email;
+    cliente.telefone = telefone;
+
+    const cliente_atualizado = await AppDataSource.manager.save(cliente);
+
+    return res.status(201).json(cliente_atualizado);
+
+  }
+
+  public async show (res: Response, req:Request){
+    const { cod } = req.params;
+
+    const cliente = await AppDataSource.manager.findOneBy(Cliente, { id: cod });
+
+    if (cliente == null) {
+      return res.status(404).json({ erro: 'Cliente não encontrado!' });
+    }
+
+    await AppDataSource.manager.delete(Cliente, cliente);
+
+    return res.status(204).json();
+
+  }
+
+  public async destroy (res: Response, req:Request){
+    const { cod } = req.params;
+
+    const cliente = await AppDataSource.manager.findOneBy(Cliente, { id: cod });
+
+    if (cliente == null) {
+      return res.status(404).json({ erro: 'Cliente não encontrado!' });
+    }
+
+  }
 }

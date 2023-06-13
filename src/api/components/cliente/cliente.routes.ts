@@ -14,6 +14,7 @@ export class ClienteRoutes {
   private init(): void {
     this.router.get('/', this.controller.list);
     this.router.post('/', this.controller.create);
+    this.router.put('/:id', this.controller.update);
   }
 
   public routes(): Router {
