@@ -5,15 +5,6 @@ export class Despesa {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
-  descricao!: string;
-
-  @Column()
-  data!: Date;
-
-  @Column()
-  data_efetivacao!: Date;
-
   @Column({
     type: 'decimal', 
     transformer: {
@@ -22,6 +13,13 @@ export class Despesa {
     }
   })
   valor!: number;
+ 
+  @Column()
+    data_hora!: Date;
+
+  @Column()
+   descricao!: Date;
+
 
   @Column({ 
     type: 'decimal',

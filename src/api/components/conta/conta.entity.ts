@@ -1,18 +1,15 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('despesas')
-export class Despesa {
+@Entity('conta')
+export class Conta {
   @PrimaryGeneratedColumn()
   id!: number;
 
   @Column()
-  descricao!: string;
+  numero!: number;
 
   @Column()
-  data!: Date;
-
-  @Column()
-  data_efetivacao!: Date;
+  data_abertura!: Date;
 
   @Column({
     type: 'decimal', 
@@ -21,7 +18,22 @@ export class Despesa {
       from(value: any) { return parseFloat(value) }
     }
   })
-  valor!: number;
+  saldo!: number;
+
+  @Column()
+  tipo!: string;
+
+  @Column()
+  sigla_tipo!: string;
+  
+  @Column({ 
+    type: 'decimal',
+    transformer: {
+      to(value: any) { return value },
+      from(value: any) { return parseFloat(value) }
+    }
+   })
+  valor_limite!: number;
 
   @Column({ 
     type: 'decimal',
@@ -30,8 +42,11 @@ export class Despesa {
       from(value: any) { return parseFloat(value) }
     }
    })
-  valor_pago!: number;
+  saldo_limite!: number;
 
   @Column()
-  pago!: boolean;
+  agencia_id!: number;
+
+  @Column()
+  cliente_id!: number;
 }
