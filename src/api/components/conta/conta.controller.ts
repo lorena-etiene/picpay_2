@@ -59,7 +59,6 @@ export class ContaController {
     if(contaNova == null){
       return res.status(404).json({erro:"Conta não encontrada"});
     }
-    const contaAntiga = contaNova;
     let {saldo, tipo, sigla_tipo, valor_limite, saldo_limite} = req.body;
 
     contaNova.saldo = saldo;
@@ -70,7 +69,7 @@ export class ContaController {
 
     await AppDataSource.manager.save(contaNova);
 
-    return res.status(201).json({Registro_antigo:contaAntiga, Registro_Novo: contaNova});
+    return res.status(201).json({Conta_atualizada: contaNova});
   }
 
   public async show (req: Request, res:Response){

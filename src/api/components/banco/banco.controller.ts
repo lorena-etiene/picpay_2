@@ -40,13 +40,7 @@ export class BancoController {
     if(bancoNovo == null){
       return res.status(404).json({erro:"Banco não encontrado"});
     }
-    let bancoAntigo = new Banco();
-    bancoAntigo.id = bancoNovo.id;
-    bancoAntigo.numero = bancoNovo.numero;
-    bancoAntigo.nome_fantasia = bancoNovo.nome_fantasia;
-    bancoAntigo.razao_social = bancoNovo.razao_social;
-    bancoAntigo.cnpj = bancoNovo.cnpj;
-    
+
     let { numero, nome_fantasia,razao_social,cnpj } = req.body;
     bancoNovo.numero = numero;
     bancoNovo.nome_fantasia = nome_fantasia;
@@ -55,7 +49,7 @@ export class BancoController {
 
     await AppDataSource.manager.save(bancoNovo);
 
-    return console.log("Banco atualizado com sucesso"),res.status(201).json({Registro_antigo:bancoAntigo, Registro_Novo: bancoNovo});
+    return console.log("Banco atualizado com sucesso"),res.status(201).json({Banco_atualizado: bancoNovo});
   }
 
   public async show (req: Request, res:Response){

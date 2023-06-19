@@ -51,7 +51,6 @@ export class AgenciaController {
     if(agenciaNova == null){
       return res.status(404).json({erro:"Agência não encontrada"});
     }
-    const agenciaAntiga = agenciaNova;
     let { numero, nome_fantasia,razao_social,cnpj, telefone, email, ban_id } = req.body;
     agenciaNova.numero = numero;
     agenciaNova.nome_fantasia = nome_fantasia;
@@ -63,7 +62,7 @@ export class AgenciaController {
 
     await AppDataSource.manager.save(agenciaNova);
 
-    return res.status(201).json({Registro_antigo:agenciaAntiga, Registro_Novo: agenciaNova});
+    return res.status(201).json({Agencia_atualizada: agenciaNova});
   }
 
   public async show (req: Request, res:Response){

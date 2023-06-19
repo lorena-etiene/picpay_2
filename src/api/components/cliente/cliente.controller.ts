@@ -48,7 +48,6 @@ export class ClienteController {
     }
 
     let { nome, cpf_cnpj, rg, sexo, data_nascimento, renda, endereço, email, telefone } = req.body;
-    const clienteAntigo = cli;
     cli.nome = nome;
     cli.cpf_cnpj = cpf_cnpj;
     cli.rg = rg;
@@ -61,7 +60,7 @@ export class ClienteController {
 
     await AppDataSource.manager.save(cli);
 
-    return res.status(201).json({Registro_antigo:clienteAntigo, Registro_Novo: cli});
+    return res.status(201).json({Cliente_atualizado: cli});
 
   }
 
