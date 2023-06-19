@@ -1,10 +1,14 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { IsBoolean, IsDateString, IsInt, IsNotEmpty, IsNumber, IsOptional, IsEmail } from 'class-validator';
+
 
 @Entity('saque')
 export class Saque {
   @PrimaryGeneratedColumn()
   id!: number;
 
+  @IsNotEmpty()
+  @IsNumber()
   @Column({
     type: 'decimal', 
     transformer: {
@@ -14,9 +18,13 @@ export class Saque {
   })
   valor!: number;
 
+  @IsNotEmpty()
+  @IsDateString()
   @Column()
   data_hora!: Date;
 
+  @IsNotEmpty()
+  @IsNumber()
   @Column()
   conta_id!: number;
 }

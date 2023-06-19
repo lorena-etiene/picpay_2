@@ -1,16 +1,23 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { IsBoolean, IsDateString, IsInt, IsNotEmpty, IsNumber, IsOptional, IsEmail } from 'class-validator';
 
 @Entity('conta')
 export class Conta {
   @PrimaryGeneratedColumn()
   id!: number;
 
+  @IsNotEmpty()
+  @IsNumber()
   @Column()
   numero!: number;
 
+  @IsNotEmpty()
+  @IsDateString()
   @Column()
   data_abertura!: Date;
 
+  @IsNotEmpty()
+  @IsNumber()
   @Column({
     type: 'decimal', 
     transformer: {
@@ -20,12 +27,16 @@ export class Conta {
   })
   saldo!: number;
 
+  @IsNotEmpty()
   @Column()
   tipo!: string;
 
+  @IsNotEmpty()
   @Column()
   sigla_tipo!: string;
   
+  @IsNotEmpty()
+  @IsNumber()
   @Column({ 
     type: 'decimal',
     transformer: {
@@ -35,6 +46,8 @@ export class Conta {
    })
   valor_limite!: number;
 
+  @IsNotEmpty()
+  @IsNumber()
   @Column({ 
     type: 'decimal',
     transformer: {
@@ -44,9 +57,13 @@ export class Conta {
    })
   saldo_limite!: number;
 
+  @IsNotEmpty()
+  @IsNumber()
   @Column()
   agencia_id!: number;
 
+  @IsNotEmpty()
+  @IsNumber()
   @Column()
   cliente_id!: number;
 }

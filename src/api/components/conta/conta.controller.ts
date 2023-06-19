@@ -3,6 +3,7 @@ import { AppDataSource } from '../../../config/database/mysql-datasource.config'
 import { Conta } from './conta.entity';
 import { Agencia } from '../agencia/agencia.entity';
 import { Cliente } from '../cliente/cliente.entity';
+import { validate } from "class-validator";
 
 
 export class ContaController {
@@ -40,6 +41,12 @@ export class ContaController {
     conta.agencia_id = agencia_id;
     conta.cliente_id = cliente_id;
 
+    const erros = await validate(conta);
+
+    if(erros.length > 0) {
+      return res.status(400).json(erros);
+    }
+
     const _conta = await AppDataSource.manager.save(conta);
 
     res.status(201).json(_conta);
@@ -68,6 +75,10 @@ export class ContaController {
 
   public async show (req: Request, res:Response){
     const { cod }= req.params;
+
+    if(!Number.isInteger(parseInt(cod))) {
+      return res.status(400).json();
+    }
 
     const _conta = await AppDataSource.manager.findOneBy(Conta, { id: parseInt(cod) });
 

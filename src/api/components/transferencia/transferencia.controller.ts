@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { AppDataSource } from '../../../config/database/mysql-datasource.config';
 import { Transferencia } from './transferencia.entity';
 import { Conta } from '../conta/conta.entity';
+import { validate } from "class-validator";
 
 export class TransferenciaController {
   public async list(req: Request, res: Response) {
@@ -40,6 +41,12 @@ export class TransferenciaController {
     transf.conta_origem_id = conta_origem_id;
     transf.conta_destino_id = conta_destino_id;
 
+    const erros = await validate(transf);
+
+    if(erros.length > 0) {
+      return res.status(400).json(erros);
+    }
+
 
     const _transferencia = await AppDataSource.manager.save(transf);
 
@@ -57,10 +64,17 @@ export class TransferenciaController {
 
   public async show(req: Request, res: Response){
     let {cod} = req.params
+
+    if(!Number.isInteger(parseInt(cod))) {
+      return res.status(400).json();
+    }
+
     const showtrans = await AppDataSource.manager.findOneBy(Transferencia, {id:parseInt(cod)})
+
     if (showtrans == null) {
       return res.status(404).json({ erro: 'Transferencia não encontrado!' });
     }
+
     return res.status(201).json(showtrans);
   }
 }

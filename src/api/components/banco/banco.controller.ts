@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { AppDataSource } from '../../../config/database/mysql-datasource.config';
 import { Banco } from './banco.entity';
+import { validate } from "class-validator";
 
 export class BancoController {
   public async list(req: Request, res: Response) {
@@ -19,6 +20,12 @@ export class BancoController {
     banco.nome_fantasia = nome_fantasia;
     banco.razao_social = razao_social;
     banco.cnpj = cnpj;
+
+    const erros = await validate(banco);
+
+    if(erros.length > 0) {
+      return res.status(400).json(erros);
+    }
 
     const _banco = await AppDataSource.manager.save(banco);
 
@@ -53,6 +60,10 @@ export class BancoController {
 
   public async show (req: Request, res:Response){
     const { cod }= req.params;
+
+    if(!Number.isInteger(parseInt(cod))) {
+      return res.status(400).json();
+    }
 
     const _banco = await AppDataSource.manager.findOneBy(Banco, { id: parseInt(cod) });
 

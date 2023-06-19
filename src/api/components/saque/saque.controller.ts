@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { AppDataSource } from '../../../config/database/mysql-datasource.config';
 import { Saque } from './saque.entity';
 import { Conta } from '../conta/conta.entity';
+import { validate } from "class-validator";
 
 export class SaqueController {
   public async list(req: Request, res: Response) {
@@ -29,6 +30,12 @@ export class SaqueController {
     saque.data_hora = datahora;
     saque.conta_id = conta_id;
 
+    const erros = await validate(saque);
+
+    if(erros.length > 0) {
+      return res.status(400).json(erros);
+    }
+
     const _saque = await AppDataSource.manager.save(saque);
     //Colocar um código para que dps do saque o saldo da conta diminua com o valor sacado. Mudar o nome da
     // função para sacar
@@ -41,10 +48,17 @@ export class SaqueController {
 
   public async show(req: Request, res:Response){
     let {cod} = req.params
+
+    if(!Number.isInteger(parseInt(cod))) {
+      return res.status(400).json();
+    }
+
     const showsaque = await AppDataSource.manager.findOneBy(Saque, {id:parseInt(cod)})
+
     if (showsaque == null) {
       return res.status(404).json({ erro: 'Saque não encontrado!' });
     }
+
     return res.status(201).json(showsaque);
   }
 

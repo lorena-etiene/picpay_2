@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { AppDataSource } from '../../../config/database/mysql-datasource.config';
 import { Agencia } from './agencia.entity';
 import { Banco } from '../banco/banco.entity';
+import { validate } from "class-validator";
 
 export class AgenciaController {
   public async list(req: Request, res: Response) {
@@ -32,6 +33,12 @@ export class AgenciaController {
     agc.email = email;
     agc.ban_id = ban_id;
 
+    const erros = await validate(agc);
+
+    if(erros.length > 0) {
+      return res.status(400).json(erros);
+    }
+
     const _agencia = await AppDataSource.manager.save(agc);
 
     return res.status(201).json(_agencia);
@@ -61,6 +68,10 @@ export class AgenciaController {
 
   public async show (res: Response, req:Request){
     const { cod }= req.params;
+
+    if(!Number.isInteger(parseInt(cod))) {
+      return res.status(400).json();
+    }
 
     const _agencia = await AppDataSource.manager.findOneBy(Agencia, { id: parseInt(cod) });
 
