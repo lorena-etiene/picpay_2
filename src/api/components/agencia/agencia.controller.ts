@@ -44,7 +44,7 @@ export class AgenciaController {
     return res.status(201).json(_agencia);
   }
   
-  public async update (res: Response, req:Request){
+  public async update (req: Request, res:Response){
     const {cod}  = req.params;
 
     const agenciaNova = await AppDataSource.manager.findOneBy(Agencia, { id: parseInt(cod) });
@@ -66,7 +66,7 @@ export class AgenciaController {
     return res.status(201).json({Registro_antigo:agenciaAntiga, Registro_Novo: agenciaNova});
   }
 
-  public async show (res: Response, req:Request){
+  public async show (req: Request, res:Response){
     const { cod }= req.params;
 
     if(!Number.isInteger(parseInt(cod))) {
@@ -82,7 +82,7 @@ export class AgenciaController {
     return res.json(_agencia);
   }
 
-  public async destroy (res: Response, req:Request){
+  public async destroy (req: Request, res:Response){
     const { cod }= req.params;
 
     const _agencia = await AppDataSource.manager.findOneBy(Agencia, { id: parseInt(cod) });
