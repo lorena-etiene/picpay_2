@@ -40,7 +40,7 @@ export class Cliente {
 
   @IsNotEmpty()
   @Column()
-  endereço!: string;
+  endereco!: string;
 
   @IsOptional()
   @IsEmail()

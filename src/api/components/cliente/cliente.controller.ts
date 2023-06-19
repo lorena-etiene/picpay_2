@@ -14,7 +14,7 @@ export class ClienteController {
   public async create(req: Request, res: Response) {
     
     //aqui que pegamos o dados para cadastrar um novo cliente
-    let { nome, cpf_cnpj, rg, sexo, data_nascimento, renda, endereço, email, telefone } = req.body;
+    let { nome, cpf_cnpj, rg, sexo, data_nascimento, renda, endereco, email, telefone } = req.body;
 
     let cliente = new Cliente();
     cliente.nome = nome;
@@ -23,7 +23,7 @@ export class ClienteController {
     cliente.sexo = sexo;
     cliente.data_nascimento = data_nascimento;
     cliente.renda = renda;
-    cliente. endereço = endereço;
+    cliente. endereco = endereco;
     cliente.email = email;
     cliente.telefone = telefone;
 
@@ -54,7 +54,7 @@ export class ClienteController {
     cli.sexo = sexo;
     cli.data_nascimento = data_nascimento;
     cli.renda = renda;
-    cli. endereço = endereço;
+    cli. endereco = endereço;
     cli.email = email;
     cli.telefone = telefone;
 
