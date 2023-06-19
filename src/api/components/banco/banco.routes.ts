@@ -17,7 +17,6 @@ export class BancoRoutes {
     this.router.get('/:cod', this.controller.show);
     this.router.put('/update/:cod', this.controller.update);
     this.router.delete('/delete/:cod', this.controller.destroy);
-
   }
 
   public routes(): Router {
