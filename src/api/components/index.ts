@@ -18,11 +18,12 @@ import { ContaRoutes } from './conta/conta.routes';
 export function registerRoutes(router: Router, prefix: string = ''): void {
   router.use(`${prefix}`, new BaseRoutes().routes());
   //router.use(`${prefix}/despesas`, new DespesaRoutes().routes());
-  router.use(`${prefix}/agencia`, new AgenciaRoutes().routes())
   router.use(`${prefix}/banco`, new BancoRoutes().routes())
+  router.use(`${prefix}/agencia`, new AgenciaRoutes().routes())
+  router.use(`${prefix}/cliente`, new ClienteRoutes().routes())
+  router.use(`${prefix}/conta`, new ContaRoutes().routes())
   router.use(`${prefix}/deposito`, new DepositoRoutes().routes())
   router.use(`${prefix}/saque`, new AgenciaRoutes().routes())
   router.use(`${prefix}/transferencia`, new AgenciaRoutes().routes())
-  router.use(`${prefix}/cliente`, new ClienteRoutes().routes())
-  router.use(`${prefix}/conta`, new ContaRoutes().routes())
+
 }

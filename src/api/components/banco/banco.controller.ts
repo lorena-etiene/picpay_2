@@ -7,7 +7,7 @@ export class BancoController {
 
     const bancos = await AppDataSource.manager.find(Banco)
 
-    res.status(200).json({ dados: bancos });
+    return res.status(200).json({ dados: bancos });
   }
 
   public async create(req: Request, res: Response) {
@@ -22,18 +22,24 @@ export class BancoController {
 
     const _banco = await AppDataSource.manager.save(banco);
 
-    res.status(201).json(_banco);
+    return console.log("Banco criado com sucesso"), res.status(201).json(_banco);
   }
+
   public async update (req: Request, res:Response){
     
     const {cod}  = req.params;
 
     const bancoNovo = await AppDataSource.manager.findOneBy(Banco, { id: parseInt(cod) });
-    res.json(bancoNovo);
-    /*if(bancoNovo == null){
-      return res.status(400).json({erro:"Banco não encontrado"});
+    if(bancoNovo == null){
+      return res.status(404).json({erro:"Banco não encontrado"});
     }
-    const bancoAntigo = bancoNovo;
+    let bancoAntigo = new Banco();
+    bancoAntigo.id = bancoNovo.id;
+    bancoAntigo.numero = bancoNovo.numero;
+    bancoAntigo.nome_fantasia = bancoNovo.nome_fantasia;
+    bancoAntigo.razao_social = bancoNovo.razao_social;
+    bancoAntigo.cnpj = bancoNovo.cnpj;
+    
     let { numero, nome_fantasia,razao_social,cnpj } = req.body;
     bancoNovo.numero = numero;
     bancoNovo.nome_fantasia = nome_fantasia;
@@ -42,15 +48,31 @@ export class BancoController {
 
     await AppDataSource.manager.save(bancoNovo);
 
-    res.status(201).json({Registroantigo:bancoAntigo, RegistroNovo: bancoNovo});
-    */
+    return console.log("Banco atualizado com sucesso"),res.status(201).json({Registro_antigo:bancoAntigo, Registro_Novo: bancoNovo});
   }
 
   public async show (req: Request, res:Response){
+    const { cod }= req.params;
 
+    const _banco = await AppDataSource.manager.findOneBy(Banco, { id: parseInt(cod) });
+
+    if (_banco == null) {
+      return res.status(404).json({ erro: 'Despesa não encontrada!' });
+    }
+
+    return res.json(_banco);
   }
 
   public async destroy (req: Request, res:Response){
+    const { cod }= req.params;
 
+    const _banco = await AppDataSource.manager.findOneBy(Banco, { id: parseInt(cod) });
+
+    if (_banco == null) {
+      return res.status(404).json({ erro: 'Despesa não encontrada!' });
+    }
+    await AppDataSource.manager.delete(Banco,_banco);
+
+    return console.log("Banco excluido com sucesso"),res.status(204).json();
   }
 }

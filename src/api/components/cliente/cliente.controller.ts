@@ -5,19 +5,14 @@ import { Cliente } from './cliente.entity';
 export class ClienteController {
   public async list(req: Request, res: Response) {
 
-    const despesas = await AppDataSource.manager.find(Cliente)
+    const clientes = await AppDataSource.manager.find(Cliente)
 
-    res.status(200).json({ dados: Cliente });
+    return res.status(200).json({ dados: clientes });
   }
 
   public async create(req: Request, res: Response) {
     
-    //aqui que pegamos o dados para cadastrar uma nova despesa
-    
-    // let descricao = req.body.descricao;
-    // let valor = req.body.valor;
-    // let data = req.body.data;
-
+    //aqui que pegamos o dados para cadastrar um novo cliente
     let { nome, cpf_cnpj, rg, sexo, data_nascimento, renda, endereço, email, telefone } = req.body;
 
     let cliente = new Cliente();
@@ -33,7 +28,7 @@ export class ClienteController {
 
     const _cliente = await AppDataSource.manager.save(cliente);
 
-    res.status(201).json(_cliente);
+    return res.status(201).json(_cliente);
   }
 
   public async update (req: Request, res:Response){
@@ -46,21 +41,20 @@ export class ClienteController {
     }
 
     let { nome, cpf_cnpj, rg, sexo, data_nascimento, renda, endereço, email, telefone } = req.body;
+    const clienteAntigo = cli;
+    cli.nome = nome;
+    cli.cpf_cnpj = cpf_cnpj;
+    cli.rg = rg;
+    cli.sexo = sexo;
+    cli.data_nascimento = data_nascimento;
+    cli.renda = renda;
+    cli. endereço = endereço;
+    cli.email = email;
+    cli.telefone = telefone;
 
-    let cliente = new Cliente();
-    cliente.nome = nome;
-    cliente.cpf_cnpj = cpf_cnpj;
-    cliente.rg = rg;
-    cliente.sexo = sexo;
-    cliente.data_nascimento = data_nascimento;
-    cliente.renda = renda;
-    cliente. endereço = endereço;
-    cliente.email = email;
-    cliente.telefone = telefone;
+    await AppDataSource.manager.save(cli);
 
-    const cliente_atualizado = await AppDataSource.manager.save(cliente);
-
-    return res.status(201).json(cliente_atualizado);
+    return res.status(201).json({Registro_antigo:clienteAntigo, Registro_Novo: cli});
 
   }
 
@@ -73,13 +67,12 @@ export class ClienteController {
       return res.status(404).json({ erro: 'Cliente não encontrado!' });
     }
 
-    await AppDataSource.manager.delete(Cliente, cli);
-
-    return res.status(204).json();
+    return res.json(cli);
 
   }
 
   public async destroy (req: Request, res:Response){
+
     const { cod } = req.params;
 
     const cli = await AppDataSource.manager.findOneBy(Cliente, { id: parseInt(cod) });
@@ -87,6 +80,10 @@ export class ClienteController {
     if (cli == null) {
       return res.status(404).json({ erro: 'Cliente não encontrado!' });
     }
+
+    await AppDataSource.manager.delete(Cliente, cli);
+
+    return res.status(204).json();
 
   }
 }
