@@ -16,7 +16,7 @@ export class AgenciaController {
     
     //aqui que pegamos o dados para cadastrar uma nova despesa
     
-    let { numero, nome_fantasia,razao_social,cnpj,telefone, email, ban_id  } = req.body;
+    let { numero, nome_fantasia,razao_social,cnpj,telefone, email, ban_id } = req.body;
     
     //Verifica se existe o banco com o id inserido.
     const vrf_banco = await AppDataSource.manager.findOneBy(Banco, {id: ban_id})
@@ -31,7 +31,7 @@ export class AgenciaController {
     agc.cnpj = cnpj;
     agc.telefone = telefone;
     agc.email = email;
-    agc.ban_id = ban_id;
+    agc.banco = vrf_banco;
 
     const erros = await validate(agc);
 
@@ -52,13 +52,18 @@ export class AgenciaController {
       return res.status(404).json({erro:"Agência não encontrada"});
     }
     let { numero, nome_fantasia,razao_social,cnpj, telefone, email, ban_id } = req.body;
+    const vrf_banco = await AppDataSource.manager.findOneBy(Banco, {id: ban_id})
+    if(vrf_banco == null){
+      return res.status(404).json({erro:"Não existe banco com esse id: "+ban_id})
+    }
+
     agenciaNova.numero = numero;
     agenciaNova.nome_fantasia = nome_fantasia;
     agenciaNova.razao_social = razao_social;
     agenciaNova.cnpj = cnpj;
     agenciaNova.telefone = telefone;
     agenciaNova.email = email;
-    agenciaNova.ban_id = ban_id;
+    agenciaNova.banco = vrf_banco;
 
     await AppDataSource.manager.save(agenciaNova);
 

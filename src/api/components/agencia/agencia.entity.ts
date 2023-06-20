@@ -1,6 +1,7 @@
 import { StreamOptions } from 'morgan';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { IsBoolean, IsDateString, IsInt, IsNotEmpty, IsNumber, IsOptional, IsEmail } from 'class-validator';
+import { Banco } from '../banco/banco.entity';
 
 @Entity('agencia')
 export class Agencia {
@@ -31,7 +32,12 @@ export class Agencia {
   @Column()
   email!: string;
 
-  @IsNotEmpty()
-  @Column()
-  ban_id!: number;
+  
+
+  @ManyToOne(() => Banco, {eager:true})
+  @JoinColumn({
+    name:"ban_id",
+    referencedColumnName:"id"
+  })
+  banco!: Banco;
 }
