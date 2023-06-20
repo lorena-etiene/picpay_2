@@ -1,5 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { IsBoolean, IsDateString, IsInt, IsNotEmpty, IsNumber, IsOptional, IsEmail } from 'class-validator';
+import { Cliente } from '../cliente/cliente.entity';
+import { Agencia } from '../agencia/agencia.entity';
 
 @Entity('conta')
 export class Conta {
@@ -57,13 +59,25 @@ export class Conta {
    })
   saldo_limite!: number;
 
-  @IsNotEmpty()
+  /*@IsNotEmpty()
   @IsNumber()
   @Column()
-  agencia_id!: number;
+  agencia_id!: number;*/
+  @ManyToOne(() => Agencia, { eager: true })
+  @JoinColumn({
+    name: "agencia_id",
+    referencedColumnName: "id"
+  })
+  agencia!: Agencia;
 
-  @IsNotEmpty()
+  /*@IsNotEmpty()
   @IsNumber()
   @Column()
-  cliente_id!: number;
+  cliente_id!: number;*/
+  @ManyToOne(() => Cliente, { eager: true })
+  @JoinColumn({
+    name: "cliente_id",
+    referencedColumnName: "id"
+  })
+  cliente!: Cliente;
 }

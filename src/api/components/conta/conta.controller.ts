@@ -38,8 +38,8 @@ export class ContaController {
     conta.sigla_tipo = sigla_tipo;
     conta.valor_limite = valor_limite;
     conta.saldo_limite = saldo_limite;
-    conta.agencia_id = agencia_id;
-    conta.cliente_id = cliente_id;
+    conta.agencia = vrf_agencia;
+    conta.cliente = vrf_cliente;
 
     const erros = await validate(conta);
 

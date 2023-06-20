@@ -27,7 +27,7 @@ export class DepositoController {
       return res.status(404).json({erro:"Não foi possível realizar o depósito. R$"+ valor+ " vai exceder o limite de saldo da sua conta: "+vrf_conta.saldo_limite})
     }
     let depo = new Deposito();
-    depo.conta_id = conta_id;
+    depo.conta = vrf_conta;
     depo.data_hora = data_hora;
     depo.valor = valor;
 
