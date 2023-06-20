@@ -28,7 +28,7 @@ export class SaqueController {
     let saque = new Saque();
     saque.valor = valor;
     saque.data_hora = data_hora;
-    saque.conta_id = conta_id;
+    saque.conta = vrf_conta;
 
     const erros = await validate(saque);
 

@@ -1,6 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { IsBoolean, IsDateString, IsInt, IsNotEmpty, IsNumber, IsOptional, IsEmail } from 'class-validator';
-
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { IsBoolean, IsDateString, IsInt, IsNotEmpty, IsNumber, IsOptional, IsEmail,  } from 'class-validator';
+import { Conta } from '../conta/conta.entity';
 
 @Entity('deposito')
 export class Deposito {
@@ -23,8 +23,14 @@ export class Deposito {
   @Column()
   data_hora!: Date;
 
-  @IsNotEmpty()
+  /*@IsNotEmpty()
   @IsNumber()
   @Column()
-  conta_id!: number;
+  conta_id!: number;*/
+  @ManyToOne(() => Conta, { eager: true })
+  @JoinColumn({
+    name: "conta_id",
+    referencedColumnName: "id"
+  })
+  conta!: Conta;
 }
