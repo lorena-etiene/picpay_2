@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { IsBoolean, IsDateString, IsInt, IsNotEmpty, IsNumber, IsOptional, IsEmail } from 'class-validator';
+import { Conta } from '../conta/conta.entity';
 
 @Entity('transferencia')
 export class Transferencia {
@@ -20,13 +21,24 @@ export class Transferencia {
   @Column()
   descricao!: string;
 
-  @IsNotEmpty()
-  @IsNumber()
-  @Column()
-  conta_origem_id!: number;
+  // @IsNotEmpty()
+  // @IsNumber()
+  // @Column()
+  // conta_origem_id!: number;
+  @ManyToOne(() => Conta, { eager: true })
+  @JoinColumn({
+    name: "conta_origem_id",
+    referencedColumnName: "id"
+  })
+  conta_Origem!: Conta;
 
-  @IsNotEmpty()
+  /*@IsNotEmpty()
   @IsNumber()
-  @Column()
-  conta_destino_id!: number;
+  @Column()*/
+  @ManyToOne(()=> Conta,{eager:true})
+  @JoinColumn({
+    name: "conta_destino_id",
+    referencedColumnName: "id"
+  })
+  conta_Destino!: Conta;
 }

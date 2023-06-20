@@ -17,7 +17,7 @@ export class DepositoController {
   public async create(req: Request, res: Response) {
     
     //aqui que pegamos o dados para cadastrar um novo depósito
-    let {valor, datahora, conta_id } = req.body;
+    let {valor, data_hora, conta_id } = req.body;
 
     const vrf_conta = await AppDataSource.manager.findOneBy (Conta, {id: conta_id});
     if(vrf_conta == null){
@@ -28,7 +28,7 @@ export class DepositoController {
     }
     let depo = new Deposito();
     depo.conta_id = conta_id;
-    depo.data_hora = datahora;
+    depo.data_hora = data_hora;
     depo.valor = valor;
 
     const erros = await validate(depo);
@@ -40,12 +40,10 @@ export class DepositoController {
     const _deposito = await AppDataSource.manager.save(depo);
     //Colocar um código para que dps do depósito o saldo da conta aumentar com o valor depositado
     // Mudar o nome da função para depositar
-    const saldoAntigo = vrf_conta;
     vrf_conta.saldo += depo.valor;
     
     await AppDataSource.manager.save(vrf_conta);
-
-    return res.status(201).json({Deposito:_deposito,Saldo_antigo: saldoAntigo, Saldo_novo:vrf_conta});
+    return res.status(201).json({Deposito:_deposito,Conta_saldo_novo:vrf_conta});
   }
 
   //Função que exibe o registro do ID que passado no body

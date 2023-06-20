@@ -16,18 +16,18 @@ export class SaqueController {
     
     //aqui que pegamos o dados para cadastrar um novo saque
 
-    let {valor, datahora, conta_id } = req.body;
+    let {valor, data_hora, conta_id } = req.body;
     const vrf_conta = await AppDataSource.manager.findOneBy (Conta, {id: conta_id});
     if(vrf_conta == null){
       return res.status(404).json({erro:"Não existe conta com esse id: "+conta_id})
     }
     if(vrf_conta.saldo-valor < 0){
-      return res.status(404).json({erro:"Não foi possível realizar o saque. R$"+ valor+ " é maior que o saldo da sua conta: "+vrf_conta.saldo})
+      return res.status(404).json({erro:"Não foi possível realizar o saque. R$"+ valor+ " é maior que o saldo da sua conta: R$"+vrf_conta.saldo})
     }
 
     let saque = new Saque();
     saque.valor = valor;
-    saque.data_hora = datahora;
+    saque.data_hora = data_hora;
     saque.conta_id = conta_id;
 
     const erros = await validate(saque);
@@ -39,11 +39,10 @@ export class SaqueController {
     const _saque = await AppDataSource.manager.save(saque);
     //Colocar um código para que dps do saque o saldo da conta diminua com o valor sacado. Mudar o nome da
     // função para sacar
-    const saldoAntigo = vrf_conta;
     vrf_conta.saldo -= saque.valor;
 
     await AppDataSource.manager.save(vrf_conta);
-    return res.status(201).json({Saque:saque,Saldo_antigo: saldoAntigo, Saldo_novo:vrf_conta});
+    return res.status(201).json({Saque:saque, Conta_saldo_novo:vrf_conta});
   }
 
   public async show(req: Request, res:Response){

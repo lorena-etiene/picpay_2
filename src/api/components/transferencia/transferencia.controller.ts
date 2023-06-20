@@ -7,14 +7,18 @@ import { validate } from "class-validator";
 export class TransferenciaController {
   public async list(req: Request, res: Response) {
 
-    const transferencias = await AppDataSource.manager.find(Transferencia)
+    const transferencias = await AppDataSource.manager.find(Transferencia, {
+      relations: {
+        conta_Origem: true
+      }
+    })
 
     res.status(200).json({ dados: transferencias });
   }
 
   public async create(req: Request, res: Response) {
     
-    let { descricao, valor, data, conta_origem_id, conta_destino_id } = req.body;
+    let { descricao, valor, data_hora, conta_origem_id, conta_destino_id } = req.body;
 
     //Verifica se é possivel fazer o saque da conta origem
     const vrf_conta_ori = await AppDataSource.manager.findOneBy (Conta, {id: conta_origem_id});
@@ -22,7 +26,7 @@ export class TransferenciaController {
       return res.status(404).json({erro:"Não existe conta com esse id: "+conta_origem_id})
     }
     if(vrf_conta_ori.saldo-valor < 0){
-      return res.status(404).json({erro:"Não foi possível realizar o saque. R$"+ valor+ " é maior que o saldo da sua conta: "+vrf_conta_ori.saldo})
+      return res.status(404).json({erro:"Não foi possível realizar o saque. R$"+ valor+ " é maior que o saldo da sua conta: R$"+vrf_conta_ori.saldo})
     }
 
     //Verifica se é possivel depositar na conta destino
@@ -31,15 +35,15 @@ export class TransferenciaController {
       return res.status(404).json({erro:"Não existe conta com esse id: "+conta_destino_id})
     }
     if(vrf_conta_des.saldo+valor > vrf_conta_des.saldo_limite){
-      return res.status(404).json({erro:"Não foi possível realizar o depósito. R$"+ valor+ " vai exceder o limite de saldo da sua conta: "+vrf_conta_des.saldo_limite})
+      return res.status(404).json({erro:"Não foi possível realizar o depósito. R$"+ valor+ " vai exceder o limite de saldo da sua conta: R$"+vrf_conta_des.saldo_limite})
     }
 
     let transf = new Transferencia();
     transf.descricao = descricao;
-    transf.data_hora = data;
+    transf.data_hora = data_hora;
     transf.valor = valor;
-    transf.conta_origem_id = conta_origem_id;
-    transf.conta_destino_id = conta_destino_id;
+    transf.conta_Origem = vrf_conta_ori;
+    transf.conta_Destino = vrf_conta_des;
 
     const erros = await validate(transf);
 
@@ -47,11 +51,7 @@ export class TransferenciaController {
       return res.status(400).json(erros);
     }
 
-
     const _transferencia = await AppDataSource.manager.save(transf);
-
-    const origemAntiga = vrf_conta_ori;
-    const destinoAntiga = vrf_conta_des;
     vrf_conta_ori.saldo -= transf.valor;
     vrf_conta_des.saldo += transf.valor;
     await AppDataSource.manager.save(vrf_conta_ori);
@@ -59,7 +59,7 @@ export class TransferenciaController {
 
     /*Colocar um código para que dps da transferencia o saldo da conta origem diminua  e o 
      saldo da conta destino aumente. Mudar o nome da função para transferir*/
-    return res.status(201).json({Transferencia:_transferencia,Conta_origem:{Saldo_antigo:origemAntiga,Saldo_novo:vrf_conta_ori}, Conta_destino:{Saldo_antigo:destinoAntiga,Saldo_novo:vrf_conta_des}});
+    return res.status(201).json({Transferencia:_transferencia,Conta_origem_saldo_novo:vrf_conta_ori, Conta_destino_saldo_novo:vrf_conta_des});
   }
 
   public async show(req: Request, res: Response){
