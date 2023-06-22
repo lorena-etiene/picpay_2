@@ -43,7 +43,7 @@ export class SaqueController {
 
     await AppDataSource.manager.save(vrf_conta);
     
-    return res.status(201).json({Saque:saque, Conta_saldo_novo:vrf_conta});
+    return res.status(201).json({Conta_saldo_novo:vrf_conta});
   }
 
   public async show(req: Request, res:Response){

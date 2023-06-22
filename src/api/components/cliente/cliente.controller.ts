@@ -91,9 +91,19 @@ export class ClienteController {
       return res.status(404).json({ erro: 'Cliente não encontrado!' });
     }
 
-    await AppDataSource.manager.delete(Cliente, cli);
+    
 
-    return res.status(204).json();
+    let ok=true;
+    try{
+      await AppDataSource.manager.delete(Cliente, cli);
+    }catch{
+      ok = false;
+    }finally{
+      if(ok == false){
+        return res.status(404).json({ erro: 'Não foi possível deletar esse cliente, tem uma conta relacionada a ele!' });
+      }
+      return res.status(204).json({mensagem:"Cliente excluido com sucesso"})
+    }
 
   }
 }

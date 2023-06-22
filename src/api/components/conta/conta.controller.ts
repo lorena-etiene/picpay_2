@@ -97,8 +97,18 @@ export class ContaController {
       return res.status(404).json({ erro: 'Conta não encontrada!' });
     }
 
-    await AppDataSource.manager.delete(Conta,_conta);
-
-    return res.status(204).json({conta_deletada: _conta});
+    
+    
+    let ok=true;
+    try{
+      await AppDataSource.manager.delete(Conta,_conta);
+    }catch{
+      ok = false;
+    }finally{
+      if(ok == false){
+        return res.status(404).json({ erro: 'Não foi possível deletar esse conta, tem um depósito ou saque ou transferência relacionada a ela!' });
+      }
+      return res.status(204).json({mensagem:"Conta excluida com sucesso"})
+    }
   }
 }

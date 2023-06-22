@@ -27,8 +27,9 @@ export class Agencia {
   @Column()
   telefone!: string;
 
-  @IsOptional()
+
   @IsEmail()
+  @IsOptional()
   @Column()
   email!: string;
 

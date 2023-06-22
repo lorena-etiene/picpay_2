@@ -89,14 +89,25 @@ export class AgenciaController {
   public async destroy (req: Request, res:Response){
     const { cod }= req.params;
 
-    const _agencia = await AppDataSource.manager.findOneBy(Agencia, { id: parseInt(cod) });
+    const agencia = await AppDataSource.manager.findOneBy(Agencia, { id: parseInt(cod) });
 
-    if (_agencia == null) {
+    if (agencia == null) {
       return res.status(404).json({ erro: 'Agência não encontrada!' });
     }
 
-    await AppDataSource.manager.delete(Agencia,_agencia);
-
-    return res.status(204).json({agencia_deletada: _agencia});
+    //await AppDataSource.manager.delete(Agencia,_agencia);
+    //return res.status(200).json({mensagem:"Agência excluida com sucesso!"});
+    let ok=true;
+    try{
+      await AppDataSource.manager.delete(Agencia,agencia);
+    }catch{
+      ok = false;
+    }
+    finally{
+      if(ok == false){
+        return res.status(404).json({ erro: 'Não foi possível deletar essa agência, tem uma conta relacionada a ela!' });
+      }
+      return res.status(200).json({mensagem:"Agência excluida com sucesso!"});
+    }
   }
 }

@@ -42,8 +42,8 @@ export class Cliente {
   @Column()
   endereco!: string;
 
-  @IsOptional()
   @IsEmail()
+  @IsOptional()
   @Column()
   email!: string;
 
