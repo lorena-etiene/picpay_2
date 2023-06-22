@@ -42,6 +42,7 @@ export class SaqueController {
     vrf_conta.saldo -= saque.valor;
 
     await AppDataSource.manager.save(vrf_conta);
+    
     return res.status(201).json({Saque:saque, Conta_saldo_novo:vrf_conta});
   }
 

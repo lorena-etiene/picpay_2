@@ -62,7 +62,7 @@ export class BancoController {
     const _banco = await AppDataSource.manager.findOneBy(Banco, { id: parseInt(cod) });
 
     if (_banco == null) {
-      return res.status(404).json({ erro: 'Despesa não encontrada!' });
+      return res.status(404).json({ erro: 'Banco não encontrado!' });
     }
 
     return res.json(_banco);
@@ -74,7 +74,7 @@ export class BancoController {
     const _banco = await AppDataSource.manager.findOneBy(Banco, { id: parseInt(cod) });
 
     if (_banco == null) {
-      return res.status(404).json({ erro: 'Despesa não encontrada!' });
+      return res.status(404).json({ erro: 'Banco não encontrado!' });
     }
     await AppDataSource.manager.delete(Banco,_banco);
 

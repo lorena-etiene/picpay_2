@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 export class BaseController {
   
   public index(req: Request, res: Response) {
-    res.status(200).json({ message: 'Api running....' });
+    res.status(200).json({ mensagem: 'Api está rodando....' });
   }
 
   public info(req: Request, res: Response) {
